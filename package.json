@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+
+const orderItemSchema = new mongoose.Schema({
+  product:     { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+  productName: { type: String, required: true },
+  quantity:    { type: Number, required: true },
+  price:       { type: Number, required: true },
+});
+
+const orderSchema = new mongoose.Schema({
+  orderNumber: { type: String, unique: true },
+  customer: {
+    name:        { type: String, required: true },
+    phone:       { type: String, required: true },
+    email:       { type: String },
+    address:     { type: String },
+    city:        { type: String },
+    governorate: { type: String },
+  },
+  items:     [orderItemSchema],
+  subtotal:  { type: Number, required: true },
+  shipping:  { type: Number, default: 0 },
+  total:     { type: Number, required: true },
+  orderType: { type: String, enum: ['delivery','pickup'], required: true },
+  status: {
+    type: String,
+    enum: ['pending','confirmed','processing','shipped','delivered','cancelled','ready_pickup'],
+    default: 'pending',
+  },
+  notes:          { type: String },
+  adminNotes:     { type: String },
+  pickupDeadline: { type: Date },
+}, { timestamps: true });
+
+orderSchema.pre('save', async function(next) {
+  if (!this.orderNumber) {
+    const count = await mongoose.model('Order').countDocuments();
+    this.orderNumber = `Z7-${String(count + 1).padStart(4, '0')}`;
+  }
+  next();
+});
+
+module.exports = mongoose.model('Order', orderSchema);
