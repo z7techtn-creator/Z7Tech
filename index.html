@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface-variant": "#353534",
+          "surface": "#131313",
+          "primary": "#e1fdff",
+          "on-secondary-fixed-variant": "#6700b5",
+          "tertiary-fixed": "#ffe173",
+          "secondary": "#dcb8ff",
+          "on-surface": "#e5e2e1",
+          "on-secondary-fixed": "#2c0051",
+          "primary-fixed-dim": "#00dbe7",
+          "on-primary": "#00363a",
+          "error": "#ffb4ab",
+          "secondary-container": "#7701d0",
+          "surface-container-highest": "#353534",
+          "outline": "#849495",
+          "tertiary": "#fff6e4",
+          "surface-bright": "#3a3939",
+          "background": "#131313",
+          "surface-tint": "#00dbe7",
+          "surface-dim": "#131313",
+          "on-primary-container": "#006a71",
+          "on-secondary": "#480081",
+          "surface-container-high": "#2a2a2a",
+          "surface-container": "#201f1f",
+          "primary-fixed": "#74f5ff",
+          "on-background": "#e5e2e1",
+          "primary-container": "#00f2ff",
+          "outline-variant": "#3a494b",
+          "surface-container-lowest": "#0e0e0e",
+          "on-surface-variant": "#b9cacb",
+          "surface-container-low": "#1c1b1b",
+          "on-secondary-container": "#dcb7ff",
+        },
+        fontFamily: {
+          "headline": ["Manrope"],
+          "body": ["Inter"],
+          "label": ["Inter"]
+        },
+        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style>
+  :root {
+    --cyan: #00f2ff;
+    --cyan-dim: #00dbe7;
+    --purple: #7701d0;
+    --surface: #131313;
+  }
+
+- { box-sizing: border-box; }
+
+body {
+min-height: 100dvh;
+overflow-x: hidden;
+}
+
+.material-symbols-outlined {
+font-variation-settings: ‘FILL’ 0, ‘wght’ 400, ‘GRAD’ 0, ‘opsz’ 24;
+user-select: none;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #0e0e0e; }
+::-webkit-scrollbar-thumb { background: #353534; border-radius: 9999px; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Glass ── */
+.glass-card {
+background: rgba(53,53,52,0.4);
+backdrop-filter: blur(24px);
+}
+.glass-panel {
+background: rgba(19,19,19,0.92);
+backdrop-filter: blur(32px);
+}
+
+/* ── Neon glow ── */
+.neon-btn {
+box-shadow: 0 0 18px rgba(0,242,255,0.25), 0 0 40px rgba(0,242,255,0.08);
+transition: box-shadow .25s, transform .15s;
+}
+.neon-btn:hover { box-shadow: 0 0 28px rgba(0,242,255,0.4), 0 0 60px rgba(0,242,255,0.15); }
+.neon-btn:active { transform: scale(.96); }
+
+/* ── Page entrance ── */
+@keyframes fadeUp {
+from { opacity:0; transform: translateY(18px); }
+to   { opacity:1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+from { opacity:0; }
+to   { opacity:1; }
+}
+@keyframes scaleIn {
+from { opacity:0; transform: scale(.92); }
+to   { opacity:1; transform: scale(1); }
+}
+@keyframes slideDown {
+from { opacity:0; transform: translateY(-12px); }
+to   { opacity:1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+0%   { transform: scale(1);    opacity: .8; }
+100% { transform: scale(1.55); opacity: 0; }
+}
+@keyframes shimmer {
+0%   { background-position: -200% 0; }
+100% { background-position:  200% 0; }
+}
+@keyframes cartBounce {
+0%,100% { transform: scale(1); }
+30%      { transform: scale(1.35); }
+60%      { transform: scale(.88); }
+}
+@keyframes toastSlide {
+0%   { transform: translateY(100%); opacity:0; }
+15%  { transform: translateY(0);    opacity:1; }
+80%  { transform: translateY(0);    opacity:1; }
+100% { transform: translateY(100%); opacity:0; }
+}
+
+header  { animation: slideDown .5s ease both; }
+#hero   { animation: fadeIn .8s ease both; }
+
+.product-card {
+animation: fadeUp .55s ease both;
+transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+}
+.product-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 12px 40px rgba(0,0,0,.45);
+}
+
+/* stagger children */
+.product-card:nth-child(1)  { animation-delay:.05s }
+.product-card:nth-child(2)  { animation-delay:.10s }
+.product-card:nth-child(3)  { animation-delay:.15s }
+.product-card:nth-child(4)  { animation-delay:.20s }
+.product-card:nth-child(5)  { animation-delay:.25s }
+.product-card:nth-child(6)  { animation-delay:.30s }
+.product-card:nth-child(7)  { animation-delay:.35s }
+.product-card:nth-child(8)  { animation-delay:.40s }
+.product-card:nth-child(9)  { animation-delay:.45s }
+.product-card:nth-child(10) { animation-delay:.50s }
+.product-card:nth-child(11) { animation-delay:.55s }
+.product-card:nth-child(12) { animation-delay:.60s }
+
+/* side menu */
+#side-menu {
+transition: transform .38s cubic-bezier(.4,0,.2,1);
+transform: translateX(-100%);
+}
+#side-menu.open { transform: translateX(0); }
+
+.menu-item {
+display: flex; align-items: center; gap: 14px;
+padding: 12px 16px; border-radius: 12px;
+font-size: 14px; font-weight: 600;
+color: #b9cacb; cursor: pointer;
+transition: background .2s, color .2s, transform .15s;
+position: relative;
+}
+.menu-item:hover  { background: rgba(0,242,255,.07); color: #e5e2e1; }
+.menu-item:active { transform: scale(.97); }
+.menu-item.active { background: rgba(0,242,255,.12); color: #00f2ff; }
+.menu-item .material-symbols-outlined { font-size: 20px; }
+
+.menu-section-title {
+font-size: 9px; font-weight: 800; letter-spacing: .12em;
+text-transform: uppercase; color: #849495;
+padding: 0 16px; margin: 12px 0 4px;
+}
+
+.menu-divider { height: 1px; background: rgba(53,53,52,.6); margin: 8px 0; }
+
+/* cart icon bounce */
+.cart-bounce { animation: cartBounce .45s cubic-bezier(.34,1.56,.64,1); }
+
+/* add-to-cart button ripple */
+.add-btn { position: relative; overflow: hidden; }
+.add-btn::after {
+content: ‘’;
+position: absolute; inset: 0;
+background: rgba(0,242,255,.18);
+border-radius: inherit;
+transform: scale(0); opacity: 0;
+transition: transform .4s, opacity .4s;
+}
+.add-btn.ripple::after { transform: scale(2.5); opacity:0; transition: none; }
+
+/* cart drawer */
+#cart-drawer {
+transition: transform .38s cubic-bezier(.4,0,.2,1);
+transform: translateX(100%);
+}
+#cart-drawer.open { transform: translateX(0); }
+
+/* overlay */
+#overlay {
+transition: opacity .3s;
+opacity: 0; pointer-events: none;
+}
+#overlay.visible { opacity: 1; pointer-events: all; }
+
+/* modal */
+#product-modal {
+transition: opacity .3s;
+opacity: 0; pointer-events: none;
+}
+#product-modal.open { opacity:1; pointer-events: all; }
+#modal-content {
+transition: transform .35s cubic-bezier(.34,1.2,.64,1), opacity .3s;
+transform: scale(.9); opacity:0;
+}
+#product-modal.open #modal-content { transform:scale(1); opacity:1; }
+
+/* toast */
+#toast { animation: toastSlide 2.8s ease forwards; }
+
+/* qty button */
+.qty-btn {
+width:28px; height:28px; border-radius:50%;
+display:flex; align-items:center; justify-content:center;
+background: #2a2a2a; border: 1px solid #3a494b;
+cursor:pointer; font-size:16px; font-weight:700; color:#e5e2e1;
+transition: background .2s, border-color .2s;
+}
+.qty-btn:hover { background:#353534; border-color: var(–cyan); color: var(–cyan); }
+
+/* badge pulse ring */
+.badge-ring::before {
+content: ‘’;
+position: absolute; inset: -3px;
+border-radius: 50%;
+border: 2px solid var(–cyan);
+animation: pulse-ring .9s ease-out infinite;
+}
+
+/* shimmer skeleton placeholder */
+.shimmer {
+background: linear-gradient(90deg, #1c1b1b 25%, #2a2a2a 50%, #1c1b1b 75%);
+background-size: 200% 100%;
+animation: shimmer 1.4s infinite;
+}
+
+/* category active */
+.cat-chip { cursor: pointer; transition: all .2s; }
+.cat-chip.active {
+background: rgba(0,242,255,.1);
+border-color: rgba(0,242,255,.4);
+color: var(–cyan);
+}
+.cat-chip:not(.active):hover { border-color: #849495; }
+
+/* nav active indicator */
+.nav-link { transition: all .25s; }
+.nav-link.active { color: var(–cyan); background: rgba(0,242,255,.1); border-radius:.75rem; }
+
+/* floating cart total */
+#cart-total-bar {
+transition: transform .3s, opacity .3s;
+}
+</style>
+
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ═══════════════════════════ OVERLAY ═══════════════════════════ -->
+
+<div id="overlay" class="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm" onclick="closeAll()"></div>
+
+<!-- ═══════════════════════════ SIDE MENU ═══════════════════════════ -->
+
+<aside id="side-menu" class="fixed top-0 left-0 h-full w-[min(300px,85vw)] z-50 flex flex-col border-r border-[#353534]/40 shadow-[20px_0_60px_rgba(0,0,0,.6)]" style="background:rgba(15,15,15,0.97);backdrop-filter:blur(32px)">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between px-5 py-5 border-b border-[#353534]/40">
+    <div>
+      <h2 class="font-headline font-black text-lg text-[#00f2ff] tracking-tighter uppercase">Z7 TECH</h2>
+      <p class="text-[10px] text-outline mt-0.5">Z7 Tech Store — Tunisie</p>
+    </div>
+    <button onclick="closeMenu()" class="text-outline hover:text-on-surface transition-colors active:scale-90 p-1">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <!-- User Card -->
+
+  <div class="mx-4 my-4 p-4 rounded-xl bg-surface-container border border-outline-variant/20 flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-container to-secondary flex items-center justify-center shrink-0">
+      <span class="material-symbols-outlined text-[#131313] text-lg" style="font-variation-settings:'FILL' 1">person</span>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-bold truncate">Mon Compte</p>
+      <p class="text-[10px] text-outline truncate">Connectez-vous pour accéder à vos commandes</p>
+    </div>
+    <span class="material-symbols-outlined text-outline text-sm">chevron_right</span>
+  </div>
+
+  <!-- Nav links -->
+
+  <nav class="flex-1 overflow-y-auto px-3 pb-4">
+
+```
+<p class="menu-section-title">Navigation</p>
+<div class="menu-item active" onclick="menuNav(this,'all')">
+  <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">home</span>
+  Accueil
+</div>
+<div class="menu-item" onclick="menuNav(this,'storefront')">
+  <span class="material-symbols-outlined">storefront</span>
+  Boutique
+</div>
+<div class="menu-item" onclick="menuNav(this,'local_offer')">
+  <span class="material-symbols-outlined">local_offer</span>
+  Promotions
+  <span class="ml-auto px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[8px] font-black rounded-full uppercase">3</span>
+</div>
+<div class="menu-item" onclick="menuNav(this,'new_releases')">
+  <span class="material-symbols-outlined">new_releases</span>
+  Nouveautés
+  <span class="ml-auto px-2 py-0.5 bg-primary-container text-on-primary-fixed text-[8px] font-black rounded-full uppercase">New</span>
+</div>
+
+<div class="menu-divider"></div>
+<p class="menu-section-title">Catégories</p>
+
+<div class="menu-item" onclick="menuCat(this,'smartphone')">
+  <span class="material-symbols-outlined">smartphone</span>
+  Smartphones
+</div>
+<div class="menu-item" onclick="menuCat(this,'laptop')">
+  <span class="material-symbols-outlined">laptop_mac</span>
+  Ordinateurs & Tablettes
+</div>
+<div class="menu-item" onclick="menuCat(this,'gaming')">
+  <span class="material-symbols-outlined">videogame_asset</span>
+  Gaming
+</div>
+<div class="menu-item" onclick="menuCat(this,'audio')">
+  <span class="material-symbols-outlined">headset</span>
+  Audio
+</div>
+<div class="menu-item" onclick="menuCat(this,'accessory')">
+  <span class="material-symbols-outlined">keyboard</span>
+  Accessoires
+</div>
+<div class="menu-item" onclick="menuCat(this,'mobilite')" style="color:#00f2ff">
+  <span class="material-symbols-outlined" style="color:#00f2ff">electric_scooter</span>
+  Mobilité Électrique
+  <span class="ml-auto px-2 py-0.5 bg-[#00f2ff]/10 text-[#00f2ff] border border-[#00f2ff]/30 text-[8px] font-black rounded-full uppercase">New</span>
+</div>
+
+<div class="menu-divider"></div>
+<p class="menu-section-title">Mon Compte</p>
+
+<div class="menu-item" onclick="closeMenu(); showToast('Commandes bientôt disponibles')">
+  <span class="material-symbols-outlined">receipt_long</span>
+  Mes Commandes
+</div>
+<div class="menu-item" onclick="closeMenu(); showToast('Liste de souhaits bientôt disponible')">
+  <span class="material-symbols-outlined">favorite</span>
+  Liste de souhaits
+</div>
+<div class="menu-item" onclick="closeMenu(); showToast('Paramètres bientôt disponibles')">
+  <span class="material-symbols-outlined">settings</span>
+  Paramètres
+</div>
+
+<div class="menu-divider"></div>
+<p class="menu-section-title">Support</p>
+
+<div class="menu-item" onclick="closeMenu(); showToast('Chat support bientôt disponible')">
+  <span class="material-symbols-outlined">support_agent</span>
+  Contacter le support
+</div>
+<div class="menu-item" onclick="closeMenu(); showToast('FAQ bientôt disponible')">
+  <span class="material-symbols-outlined">help_outline</span>
+  FAQ
+</div>
+```
+
+  </nav>
+
+  <!-- Footer -->
+
+  <div class="border-t border-[#353534]/40 p-4">
+    <div class="flex items-center gap-3 text-[10px] text-outline justify-center">
+      <span>© 2025 Z7 Tech</span>
+      <span class="w-1 h-1 rounded-full bg-outline/40"></span>
+      <span>Tunis, Tunisie</span>
+      <span class="w-1 h-1 rounded-full bg-outline/40"></span>
+      <span class="text-primary-container font-bold">v2.0</span>
+    </div>
+    <!-- Social icons -->
+    <div class="flex justify-center gap-4 mt-3">
+      <button onclick="showToast('Instagram bientôt')" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary-container/10 hover:text-primary-container transition-all text-outline">
+        <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+      </button>
+      <button onclick="showToast('Facebook bientôt')" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary-container/10 hover:text-primary-container transition-all text-outline">
+        <span class="material-symbols-outlined text-[16px]">thumb_up</span>
+      </button>
+      <button onclick="showToast('WhatsApp bientôt')" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary-container/10 hover:text-primary-container transition-all text-outline">
+        <span class="material-symbols-outlined text-[16px]">chat</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════════════════════ TOAST ═══════════════════════════ -->
+
+<div id="toast-container" class="fixed bottom-28 left-1/2 -translate-x-1/2 z-[100] pointer-events-none flex flex-col items-center gap-2"></div>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+
+<header class="fixed top-0 w-full z-50 bg-[#131313] border-b border-[#353534]/20 shadow-[0_0_20px_rgba(0,242,255,0.08)] flex items-center justify-between px-6 h-16">
+  <div class="flex items-center gap-4">
+    <button class="active:scale-95 transition-transform text-[#849495] hover:text-[#00f2ff] transition-colors" onclick="toggleMenu()">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+    <h1 class="font-headline font-black tracking-tighter text-xl text-[#00f2ff] uppercase">Z7 TECH</h1>
+  </div>
+  <div class="flex items-center gap-4">
+    <button class="active:scale-95 text-[#849495] hover:text-[#00f2ff] transition-colors" onclick="toggleSearch()">
+      <span class="material-symbols-outlined">search</span>
+    </button>
+    <button class="relative active:scale-95 text-[#849495] hover:text-[#00f2ff] transition-colors" id="cart-btn" onclick="openCart()">
+      <span class="material-symbols-outlined" id="cart-icon">shopping_cart</span>
+      <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-primary-container text-on-primary-fixed text-[9px] font-black flex items-center justify-center relative badge-ring"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════ SEARCH BAR ═══════════════════════════ -->
+
+<div id="search-bar" class="fixed top-16 left-0 w-full z-40 px-4 py-3 bg-[#131313]/95 border-b border-[#353534]/30 backdrop-blur-xl hidden" style="animation:slideDown .25s ease both">
+  <div class="relative">
+    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+    <input id="search-input" type="text" placeholder="Rechercher un produit..." oninput="filterProducts(this.value)"
+      class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all"/>
+    <button onclick="toggleSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface transition-colors">
+      <span class="material-symbols-outlined text-sm">close</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ CART DRAWER ═══════════════════════════ -->
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-[min(380px,100vw)] glass-panel z-50 flex flex-col border-l border-[#353534]/40 shadow-[-20px_0_60px_rgba(0,0,0,.6)]">
+  <div class="flex items-center justify-between p-5 border-b border-[#353534]/40">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary-container">shopping_cart</span>
+      <h2 class="font-headline font-bold text-lg">Mon Panier</h2>
+      <span id="cart-count-label" class="px-2 py-0.5 bg-primary-container text-on-primary-fixed text-[10px] font-black rounded-full">0</span>
+    </div>
+    <button onclick="closeCart()" class="text-outline hover:text-on-surface transition-colors active:scale-90">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <!-- Cart items -->
+
+  <div id="cart-items" class="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
+    <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center gap-4 py-16 text-center">
+      <div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center">
+        <span class="material-symbols-outlined text-4xl text-outline/40">shopping_cart</span>
+      </div>
+      <p class="text-outline text-sm">Votre panier est vide</p>
+      <button onclick="closeCart()" class="px-6 py-2 border border-outline-variant/40 text-xs font-bold uppercase rounded-lg hover:border-primary-container hover:text-primary-container transition-all">
+        Continuer mes achats
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart footer -->
+
+  <div id="cart-footer" class="hidden border-t border-[#353534]/40 p-5 flex flex-col gap-4">
+    <div class="flex justify-between text-sm text-outline">
+      <span>Sous-total</span>
+      <span id="subtotal" class="text-on-surface font-bold">0 TND</span>
+    </div>
+    <div class="flex justify-between text-sm text-outline">
+      <span>Livraison</span>
+      <span class="text-tertiary-fixed font-bold">Gratuite</span>
+    </div>
+    <div class="h-px bg-[#353534]/60"></div>
+    <div class="flex justify-between font-black text-lg">
+      <span>Total</span>
+      <span id="total-price" class="text-primary-container">0 TND</span>
+    </div>
+    <button class="w-full py-3.5 bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-fixed font-bold rounded-xl neon-btn uppercase tracking-wider text-sm">
+      Commander →
+    </button>
+    <button onclick="clearCart()" class="w-full py-2 text-xs text-outline/60 hover:text-error transition-colors uppercase tracking-widest">
+      Vider le panier
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ PRODUCT MODAL ═══════════════════════════ -->
+
+<div id="product-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div id="modal-content" class="w-full sm:max-w-lg bg-[#1c1b1b] sm:rounded-2xl overflow-hidden border border-[#353534]/40 shadow-[0_32px_80px_rgba(0,0,0,.7)] max-h-[92dvh] flex flex-col">
+    <!-- Modal header -->
+    <div class="flex items-center justify-between p-5 border-b border-[#353534]/40">
+      <span id="modal-badge" class="px-2 py-0.5 bg-secondary-container text-on-secondary-container text-[9px] font-black rounded-full uppercase tracking-widest"></span>
+      <button onclick="closeModal()" class="text-outline hover:text-on-surface transition-colors active:scale-90">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <!-- Modal image -->
+    <div class="relative bg-surface-container-highest flex items-center justify-center p-8 h-52 shrink-0">
+      <img id="modal-img" src="" alt="" class="max-h-full object-contain" style="transition:transform .4s cubic-bezier(.34,1.56,.64,1)"/>
+      <div id="modal-img-icon" class="hidden items-center justify-center">
+        <span id="modal-icon" class="material-symbols-outlined text-7xl text-outline/20"></span>
+      </div>
+    </div>
+    <!-- Modal body -->
+    <div class="p-6 overflow-y-auto flex flex-col gap-4">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 id="modal-name" class="font-headline text-2xl font-black tracking-tight"></h2>
+          <div id="modal-rating" class="flex items-center gap-1 mt-1 text-[11px] text-tertiary-fixed"></div>
+        </div>
+        <div class="text-right shrink-0">
+          <p id="modal-price" class="text-primary-container font-black text-2xl leading-none"></p>
+          <p id="modal-old-price" class="text-outline line-through text-sm mt-0.5 hidden"></p>
+        </div>
+      </div>
+      <p id="modal-desc" class="text-outline text-sm leading-relaxed"></p>
+      <!-- Specs -->
+      <div id="modal-specs" class="grid grid-cols-2 gap-2"></div>
+      <!-- Qty + add -->
+      <div class="flex items-center gap-3 pt-2">
+        <div class="flex items-center gap-3 bg-surface-container rounded-lg px-3 py-2 border border-outline-variant/20">
+          <button class="qty-btn" id="modal-dec">−</button>
+          <span id="modal-qty" class="w-8 text-center font-bold text-sm">1</span>
+          <button class="qty-btn" id="modal-inc">+</button>
+        </div>
+        <button id="modal-add-btn" class="flex-1 py-3 bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-fixed font-bold rounded-xl neon-btn uppercase tracking-widest text-sm add-btn">
+          Ajouter au panier
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+
+<main class="pt-16 pb-24">
+
+  <!-- Hero -->
+
+  <section id="hero" class="relative h-[420px] w-full overflow-hidden flex items-end px-6 pb-12">
+    <div class="absolute inset-0 z-0">
+      <img alt="Futuristic dark tech workspace" class="w-full h-full object-cover opacity-60"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBshG-j4-m_mo-cTCu5FavWDA5vHzbH9XJfOaoK6bMNwrH7vccJERgZ5-2eb3VDbAEh0A4sJCEsNIg-69MX7lv-y_eb2aA2v8GIEWcJpDvcOCJdl-yfF3Db1sW7wSfemg9lm1sPi92_4tOR8nF-QwRP6YFx2_yEvL1wwRj8A-P3F6BpHousv1nOZs23-ZvoKqt4kesvEd1q_rA6Z-krL6ovRS45iBH2c3nTK16j-VrtXYZaYRNqYxFawEyf6lS92xnPGEt63tYyI_JV"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-surface via-transparent to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-sm" style="animation:fadeUp .7s .2s ease both;opacity:0">
+      <span class="inline-block px-3 py-1 mb-4 text-[10px] font-bold tracking-widest uppercase bg-secondary-container text-on-secondary-container rounded-full">Exclusivité Z7 Tech</span>
+      <h2 class="font-headline text-4xl font-extrabold tracking-tighter leading-none text-on-surface mb-4">
+        La technologie <span class="text-primary-container">la plus récente</span> aux meilleurs prix
+      </h2>
+      <p class="text-outline text-sm mb-6 leading-relaxed">Le futur est arrivé en Tunisie. Découvrez notre sélection premium de hardware haute performance.</p>
+      <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"
+        class="px-8 py-3 bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-fixed font-bold rounded-lg neon-btn">
+        Explorer la gamme
+      </button>
+    </div>
+  </section>
+
+  <!-- Categories -->
+
+  <section class="px-6 py-6 flex gap-3 overflow-x-auto no-scrollbar" style="animation:fadeUp .5s .3s ease both;opacity:0">
+    <div class="cat-chip active flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="all" onclick="filterCat(this,'all')">
+      <span class="material-symbols-outlined text-primary-container">devices</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Tous</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="smartphone" onclick="filterCat(this,'smartphone')">
+      <span class="material-symbols-outlined">smartphone</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Smartphones</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="laptop" onclick="filterCat(this,'laptop')">
+      <span class="material-symbols-outlined">laptop_mac</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Ordinateurs</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="audio" onclick="filterCat(this,'audio')">
+      <span class="material-symbols-outlined">headset</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Audio</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="gaming" onclick="filterCat(this,'gaming')">
+      <span class="material-symbols-outlined">videogame_asset</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Gaming</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-outline-variant/20 flex flex-col items-center gap-2 min-w-[110px]" data-cat="accessory" onclick="filterCat(this,'accessory')">
+      <span class="material-symbols-outlined">keyboard</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider">Accessoires</span>
+    </div>
+    <div class="cat-chip flex-shrink-0 px-5 py-3 rounded-xl bg-surface-container-high border border-[#00f2ff]/20 flex flex-col items-center gap-2 min-w-[120px]" data-cat="mobilite" onclick="filterCat(this,'mobilite')">
+      <span class="material-symbols-outlined text-[#00f2ff]">electric_scooter</span>
+      <span class="text-[10px] font-bold uppercase tracking-wider text-[#00f2ff]">Mobilité</span>
+    </div>
+  </section>
+
+  <!-- Mobilité Électrique Banner -->
+
+  <section id="mobilite-banner" class="hidden mx-6 mb-6 rounded-2xl overflow-hidden relative" style="min-height:160px">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0e1f1f] via-[#0a2a2a] to-[#131313]"></div>
+    <div class="absolute inset-0 opacity-20" style="background: repeating-linear-gradient(45deg,#00f2ff 0,#00f2ff 1px,transparent 0,transparent 50%);background-size:18px 18px;"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-1/2 flex items-center justify-center opacity-10">
+      <span class="material-symbols-outlined text-[120px] text-[#00f2ff]">electric_scooter</span>
+    </div>
+    <div class="relative z-10 p-6 flex flex-col gap-2">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 w-fit rounded-full bg-[#00f2ff]/10 border border-[#00f2ff]/30 text-[#00f2ff] text-[10px] font-black uppercase tracking-widest">
+        <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">bolt</span>
+        Nouveau chez Z7 Tech
+      </span>
+      <h3 class="font-headline text-2xl font-black tracking-tight text-white leading-tight">Mobilité<br/><span class="text-[#00f2ff]">Électrique</span></h3>
+      <p class="text-[#849495] text-xs leading-relaxed max-w-[55%]">Vélos & trottinettes électriques premium. Livraison gratuite en Tunisie.</p>
+      <div class="flex items-center gap-3 mt-1">
+        <div class="flex items-center gap-1 text-[10px] text-[#ffe173]">
+          <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">bolt</span>
+          <span>Éco-mobilité</span>
+        </div>
+        <div class="flex items-center gap-1 text-[10px] text-[#ffe173]">
+          <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">verified</span>
+          <span>Garantie 2 ans</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+
+  <section id="products" class="px-6 py-4">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h3 class="font-headline text-2xl font-bold tracking-tight">Produits Vedettes</h3>
+        <p id="products-count" class="text-outline text-xs mt-0.5">12 produits</p>
+      </div>
+      <span class="text-primary-container text-xs font-bold uppercase tracking-widest border-b border-primary-container/30 pb-1 cursor-pointer">Voir tout</span>
+    </div>
+    <div id="product-grid" class="grid grid-cols-2 gap-4"></div>
+    <!-- No results -->
+    <div id="no-results" class="hidden flex-col items-center justify-center py-20 gap-4 text-center">
+      <span class="material-symbols-outlined text-5xl text-outline/30">search_off</span>
+      <p class="text-outline text-sm">Aucun produit trouvé</p>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+
+  <section class="mt-12 mx-6 p-8 rounded-3xl glass-card border border-primary-container/10 mb-8 overflow-hidden relative" style="animation:fadeUp .5s .6s ease both;opacity:0">
+    <div class="absolute -right-12 -top-12 w-32 h-32 bg-secondary-container/20 blur-[60px] rounded-full"></div>
+    <div class="relative z-10 text-center">
+      <h3 class="font-headline text-2xl font-black tracking-tight mb-2">Restez Connecté</h3>
+      <p class="text-outline text-sm mb-6">Recevez les dernières offres tech directement par SMS ou Email.</p>
+      <div class="flex flex-col gap-3">
+        <input id="email-input" class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg text-sm px-4 py-3 focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all outline-none" placeholder="Votre email" type="email"/>
+        <button onclick="subscribeNewsletter()" class="w-full py-3 bg-on-surface text-surface font-bold rounded-lg active:scale-95 transition-all hover:bg-primary-container hover:text-on-primary-fixed transition-all">
+          S'abonner
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══════════════════════════ BOTTOM NAV ═══════════════════════════ -->
+
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 bg-[#131313]/90 backdrop-blur-xl border-t border-[#353534]/30 shadow-[0_-4px_24px_rgba(0,0,0,.5)] z-30 rounded-t-2xl">
+  <a class="nav-link active flex flex-col items-center justify-center px-3 py-1" href="#" onclick="setNav(this)">
+    <span class="material-symbols-outlined">home</span>
+    <span class="font-headline text-[10px] font-bold uppercase tracking-widest">Accueil</span>
+  </a>
+  <a class="nav-link flex flex-col items-center justify-center text-[#849495] px-3 py-1" href="#" onclick="setNav(this)">
+    <span class="material-symbols-outlined">storefront</span>
+    <span class="font-headline text-[10px] font-bold uppercase tracking-widest">Boutique</span>
+  </a>
+  <a class="nav-link flex flex-col items-center justify-center text-[#849495] px-3 py-1" href="#" onclick="setNav(this)">
+    <span class="material-symbols-outlined">grid_view</span>
+    <span class="font-headline text-[10px] font-bold uppercase tracking-widest">Catégories</span>
+  </a>
+  <a class="nav-link flex flex-col items-center justify-center text-[#849495] px-3 py-1" href="#" onclick="setNav(this)">
+    <span class="material-symbols-outlined">person</span>
+    <span class="font-headline text-[10px] font-bold uppercase tracking-widest">Compte</span>
+  </a>
+</nav>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════
+const PRODUCTS = [
+  {
+    id:1, name:'ProBook Zenith X1', price:3499, oldPrice:null,
+    rating:4.9, badge:'New', cat:'laptop', wide:false,
+    img:'https://lh3.googleusercontent.com/aida-public/AB6AXuBx5D2J6rrYYFNweL60mW5RL48m0CoNs6INMorhDfCgJtlMpVuQpegzMnVuMgcOMwMWCiObk3JrbQTlfA62MJf7K0DnJRnClzfsx4Z1EblpZh0FnyJ32OOsyWVH_geFu-vLjkWN9XWyzC8aNi5wbW4c_EEujJgS86XSuxPbEUsIKag3b0UHpAmrQNZ9TNsIrGLRSIz6ttyPq7yqCyLiJJnFDAdyr1ijLxXthkTcg-VHuCvGruIzR3ijWR_7yAXCBvwCJwD5EAE_5tU8',
+    icon:null,
+    desc:'Ordinateur portable ultra-performant avec écran OLED 14" 120Hz, processeur Core Ultra 9 et batterie 72Wh.',
+    specs:[['Processeur','Core Ultra 9'],['RAM','32 GB DDR5'],['Stockage','1 TB NVMe'],['Écran','14" OLED 120Hz']]
+  },
+  {
+    id:2, name:'Nebula S24 Ultra', price:4150, oldPrice:null,
+    rating:4.8, badge:null, cat:'smartphone', wide:false,
+    img:'https://lh3.googleusercontent.com/aida-public/AB6AXuCqLBiY1vIk0XZd1HYJCrenOr3bBAPrs6MWKjZ3bDR2R4TMs_YWeCNEvidDJTB2AZSy_XrMCo3F8ZqZWxkm4Zxxrt-QG24ClTeuOzlFYKQfmhOwV5x7LUbcVTz-wyQ2EahAlE5RqXEyslGqIKQ5Ws13uVQJLra7oMbWl-oIo279fMYfpgy13Xc-MDSayUSzxji1ytTHcWr35TeDuq4P0tl3XnHQ7E5BLb2VmIeqw8EPZzV0xXz0bFCWr_bIWYF7F2bqEbxXYR_jGPXk',
+    icon:null,
+    desc:'Smartphone flagship avec capteur 200 MP, écran Dynamic AMOLED 6.8" et S Pen intégré.',
+    specs:[['Écran','6.8" 120Hz'],['Appareil photo','200 MP'],['Batterie','5 000 mAh'],['OS','Android 14']]
+  },
+  {
+    id:3, name:'Kinetic Rig G9', price:6890, oldPrice:7500,
+    rating:5.0, badge:'Promo', cat:'gaming', wide:true,
+    img:'https://lh3.googleusercontent.com/aida-public/AB6AXuAVYnY9fcRFJO7AToTZkAuu9qiRQOud6T-DDd9vNg0OFucPHIDXcVvwNLmpxFFfB3i1C_1J3PLrWc5ltVWiicC9oauJr09qcusZegiq_S24fDRtoB38N-BcHVGp5yI9dxEMEf-pdA2mayP43Q8rJdfxDOTI1gNJvu5CGINvFUEgKCNpHTf_1ICHCx4sX-e77IBFUTjURASMysENkQ0L-1xp65izCmQEki98r8XJ_iyadBEpHnQVaaGZA5gkzwL5nUlRyEb4xK3tA0h2',
+    icon:null,
+    desc:'Tour gaming haut de gamme avec RGB synchronisé, refroidissement liquide 360mm et alimentation 1000W 80+ Gold.',
+    specs:[['GPU','RTX 4090'],['CPU','Ryzen 9 7950X'],['RAM','64 GB DDR5'],['Stockage','4 TB NVMe']]
+  },
+  {
+    id:4, name:'Sonic Pulse V2', price:599, oldPrice:null,
+    rating:4.7, badge:null, cat:'audio', wide:false,
+    img:'https://lh3.googleusercontent.com/aida-public/AB6AXuAs7QvL4KSF4oNYyjzgeEBTfwIl1UbzXzzShlcYXee6gWxn9flVHstUkcLLwCQl2gD0ajqRQg5lSc4oxKjXHnSuQfaacALHaw8UsZQXJa7DZZuLpW3NjikH-xCZMoBelnVZ2FREDDGBnI27tEtvpF1kHcG3pc5C7soKcr_-cGvRVFvFAr6uNP4ODjuMoQ0GIV_D0MfjIGFn7Wcn-fcpeYQZPh2Q2oshkYabm9BCA6BwbGrDFfMws2caqhqGIEHX7p_enORHksaByMJe',
+    icon:null,
+    desc:'Casque audiophile sans fil 40h d\'autonomie, réduction de bruit active hybride et pilotes 40mm Premium.',
+    specs:[['Autonomie','40 h'],['ANC','Hybride'],['Connectivité','Bluetooth 5.3'],['Pilotes','40 mm Premium']]
+  },
+  {
+    id:5, name:'Aura Watch GT', price:820, oldPrice:null,
+    rating:4.6, badge:null, cat:'accessory', wide:false,
+    img:'https://lh3.googleusercontent.com/aida-public/AB6AXuCDKXagfDhlrk0fzpg3443JLqdNTO3H6ob6MaZuuujb_TtuvmTD1ZjT85YeZuYU23J4N47Nkhgp1K0kuOsfYHmnPgwRrvfu1exTPr1GsxZUJp6yeh9Xka-4pqDRB5LAGoGLi4jRnSq9ceb1GG6Q0aAC1xpKpBcCAO87BWXnxXQERKnhm5gktJD11LRwTnQXpHfy5S5H5vZx51sNZ8LVOErZK9AlDW9O83HZvufAyIoCHd88MafDWZFoKJ-RKwX4aJAlakXjxhguIj5D',
+    icon:null,
+    desc:'Montre connectée avec suivi santé avancé, GPS intégré, écran AMOLED et résistance à l\'eau 5 ATM.',
+    specs:[['Écran','AMOLED 1.5"'],['GPS','Oui'],['Autonomie','14 jours'],['Résistance','5 ATM']]
+  },
+  {
+    id:6, name:'Titan Tab S10', price:2100, oldPrice:null,
+    rating:4.8, badge:null, cat:'laptop', wide:false,
+    img:null, icon:'tablet_mac',
+    desc:'Tablette premium 12.4" AMOLED avec stylet inclus, processeur Dimensity 9300 et 12 GB de RAM.',
+    specs:[['Écran','12.4" AMOLED'],['Processeur','Dimensity 9300'],['RAM','12 GB'],['Stockage','256 GB']]
+  },
+  {
+    id:7, name:'Horizon Curve 34"', price:1850, oldPrice:null,
+    rating:4.9, badge:null, cat:'accessory', wide:false,
+    img:null, icon:'monitor',
+    desc:'Moniteur incurvé ultrawide 34" 165Hz QHD, compatible G-Sync et FreeSync Premium Pro.',
+    specs:[['Taille','34" Ultrawide'],['Résolution','3440×1440'],['Fréquence','165 Hz'],['HDR','DisplayHDR 400']]
+  },
+  {
+    id:8, name:'Console X-Gen Pro', price:2400, oldPrice:null,
+    rating:4.9, badge:null, cat:'gaming', wide:true,
+    img:null, icon:'videogame_asset',
+    desc:'Console next-gen avec SSD 1 TB ultra-rapide, ray-tracing 4K 120fps et manette haptique.',
+    specs:[['Résolution','4K 120fps'],['Stockage','1 TB SSD'],['Ray-tracing','Oui'],['Online','Inclus 1 an']]
+  },
+  {
+    id:9, name:'Apex Clicky RGB', price:245, oldPrice:null,
+    rating:4.5, badge:null, cat:'accessory', wide:false,
+    img:null, icon:'keyboard',
+    desc:'Clavier mécanique TKL RGB avec switches Blue Cherry MX, boîtier en aluminium anodisé.',
+    specs:[['Switches','Cherry MX Blue'],['Layout','TKL (80%)'],['RGB','16M couleurs'],['Boîtier','Aluminium']]
+  },
+  {
+    id:10, name:'Velocity M1 Wireless', price:180, oldPrice:null,
+    rating:4.7, badge:null, cat:'accessory', wide:false,
+    img:null, icon:'mouse',
+    desc:'Souris gaming sans fil 26 000 DPI, capteur Hero 25K et autonomie 70h sans RGB.',
+    specs:[['DPI','26 000'],['Capteur','Hero 25K'],['Autonomie','70 h'],['Poids','95 g']]
+  },
+  {
+    id:11, name:'CyberCam 4K Pro', price:1290, oldPrice:1490,
+    rating:4.8, badge:'Promo', cat:'accessory', wide:false,
+    img:null, icon:'videocam',
+    desc:'Webcam 4K 60fps avec autofocus AI, annulation de bruit et éclairage HDR intégré.',
+    specs:[['Résolution','4K 60fps'],['Autofocus','AI'],['Micro','Stéréo ANC'],['FOV','90°']]
+  },
+  {
+    id:12, name:'NanoBook Air Z', price:2799, oldPrice:null,
+    rating:4.6, badge:'New', cat:'laptop', wide:false,
+    img:null, icon:'laptop',
+    desc:'Ultrabook 13" de 890g avec autonomie record de 22 heures et charge rapide 100W.',
+    specs:[['Poids','890 g'],['Autonomie','22 h'],['Charge','100W USB-C'],['Écran','13" IPS 500nits']]
+  },
+  // ── Mobilité Électrique ──
+  {
+    id:13, name:'VoltRide Pro X', price:3490, oldPrice:3990,
+    rating:4.9, badge:'Promo', cat:'mobilite', wide:true,
+    img:null, icon:'electric_scooter',
+    desc:'Trottinette électrique haut de gamme — moteur 1000W, autonomie 65 km, suspension avant/arrière et freins hydrauliques.',
+    specs:[['Moteur','1000 W'],['Autonomie','65 km'],['Vitesse max','45 km/h'],['Charge','4 h']]
+  },
+  {
+    id:14, name:'Speeder S9 Ultra', price:1890, oldPrice:null,
+    rating:4.7, badge:'New', cat:'mobilite', wide:false,
+    img:null, icon:'electric_scooter',
+    desc:'Trottinette légère 12 kg avec pneus tubeless 10", écran OLED et connectivité Bluetooth.',
+    specs:[['Poids','12 kg'],['Autonomie','40 km'],['Pneus','10" Tubeless'],['Écran','OLED']]
+  },
+  {
+    id:15, name:'EcoBike Z7 City', price:4290, oldPrice:null,
+    rating:4.8, badge:'New', cat:'mobilite', wide:false,
+    img:null, icon:'directions_bike',
+    desc:'Vélo électrique urbain avec batterie intégrée au cadre, moteur central Bosch 250W et 7 vitesses Shimano.',
+    specs:[['Moteur','Bosch 250W'],['Autonomie','80 km'],['Vitesses','7 Shimano'],['Poids','19 kg']]
+  },
+  {
+    id:16, name:'TrailBolt MTB-E', price:6990, oldPrice:7500,
+    rating:5.0, badge:'Promo', cat:'mobilite', wide:false,
+    img:null, icon:'directions_bike',
+    desc:'VTT électrique tout-terrain avec fourche hydraulique, moteur mid-drive 750W et batterie 720 Wh.',
+    specs:[['Moteur','750W Mid-Drive'],['Batterie','720 Wh'],['Fourche','Hydraulique'],['Freins','Shimano 4 pistons']]
+  },
+  {
+    id:17, name:'MiniRoll Pocket', price:890, oldPrice:null,
+    rating:4.5, badge:null, cat:'mobilite', wide:false,
+    img:null, icon:'electric_scooter',
+    desc:'Trottinette compacte pliable en 3 secondes, idéale pour le dernier kilomètre. Autonomie 25 km.',
+    specs:[['Poids','8.5 kg'],['Autonomie','25 km'],['Pliage','3 sec'],['Vitesse max','25 km/h']]
+  },
+  {
+    id:18, name:'Kit Casque + Lumières', price:290, oldPrice:null,
+    rating:4.6, badge:null, cat:'mobilite', wide:false,
+    img:null, icon:'helmet',
+    desc:'Pack sécurité complet : casque certifié EN1078, éclairage avant 800 lm et feu arrière clignotant.',
+    specs:[['Norme','EN1078'],['Lumière avant','800 lm'],['Feu arrière','Clignotant'],['Tailles','S/M/L/XL']]
+  },
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let cart = {};          // { id: qty }
+let modalQty = 1;
+let currentModalId = null;
+let currentCat = 'all';
+let searchQuery = '';
+let searchOpen = false;
+
+// ══════════════════════════════════════════════
+//  RENDER PRODUCTS
+// ══════════════════════════════════════════════
+function getFilteredProducts() {
+  return PRODUCTS.filter(p => {
+    const matchCat  = currentCat === 'all' || p.cat === currentCat;
+    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchSearch;
+  });
+}
+
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  const noRes = document.getElementById('no-results');
+  const countEl = document.getElementById('products-count');
+  const filtered = getFilteredProducts();
+
+  grid.innerHTML = '';
+  countEl.textContent = filtered.length + ' produit' + (filtered.length > 1 ? 's' : '');
+
+  if (!filtered.length) {
+    noRes.classList.remove('hidden');
+    noRes.classList.add('flex');
+    return;
+  }
+  noRes.classList.add('hidden');
+  noRes.classList.remove('flex');
+
+  filtered.forEach((p, i) => {
+    const inCart = cart[p.id] > 0;
+    const el = document.createElement('div');
+    el.className = 'product-card col-span-' + (p.wide ? '2' : '1');
+    el.dataset.id = p.id;
+
+    const imgHtml = p.img
+      ? `<img src="${p.img}" alt="${p.name}" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500" loading="lazy"/>`
+      : `<span class="material-symbols-outlined text-6xl text-outline/20">${p.icon}</span>`;
+
+    const badgeHtml = p.badge
+      ? `<div class="absolute top-2 ${p.wide ? 'left-2' : 'right-2'} px-2 py-0.5 ${p.badge === 'New' ? 'bg-primary-container text-on-primary-fixed' : 'bg-secondary-container text-on-secondary-container'} text-[8px] font-black rounded uppercase">${p.badge}</div>`
+      : '';
+
+    const oldPriceHtml = p.oldPrice
+      ? `<p class="text-[10px] text-outline line-through">${p.oldPrice.toLocaleString('fr-TN')} TND</p>`
+      : '';
+
+    const starsHtml = '★'.repeat(Math.round(p.rating)) + '☆'.repeat(5 - Math.round(p.rating));
+
+    if (p.wide) {
+      el.innerHTML = `
+        <div class="flex bg-surface-container-low rounded-xl overflow-hidden group cursor-pointer" onclick="openModal(${p.id})">
+          <div class="w-1/2 relative bg-surface-container-highest flex items-center justify-center p-6 min-h-[140px]">
+            ${imgHtml}
+            ${badgeHtml}
+          </div>
+          <div class="w-1/2 p-4 flex flex-col justify-center gap-1">
+            <div class="flex items-center gap-1 text-[10px] text-tertiary-fixed">
+              <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
+              <span>${p.rating}</span>
+            </div>
+            <h4 class="text-base font-bold text-on-surface">${p.name}</h4>
+            <p class="text-primary-container font-black text-xl leading-none">${p.price.toLocaleString('fr-TN')} TND</p>
+            ${oldPriceHtml}
+            <button class="add-btn mt-2 w-full py-2 bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-fixed text-[10px] font-bold uppercase tracking-widest rounded-lg active:scale-95 transition-all ${inCart ? 'opacity-80' : ''}"
+              onclick="event.stopPropagation(); addToCart(${p.id}, this)">
+              ${inCart ? '✓ Dans le panier' : 'Ajouter au panier'}
+            </button>
+          </div>
+        </div>`;
+    } else {
+      el.innerHTML = `
+        <div class="flex flex-col bg-surface-container-low rounded-xl overflow-hidden group cursor-pointer h-full" onclick="openModal(${p.id})">
+          <div class="relative aspect-square bg-surface-container-highest flex items-center justify-center p-4">
+            ${imgHtml}
+            ${badgeHtml}
+          </div>
+          <div class="p-3 flex flex-col gap-1 flex-1">
+            <div class="flex items-center gap-1 text-[10px] text-tertiary-fixed">
+              <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
+              <span>${p.rating}</span>
+            </div>
+            <h4 class="text-sm font-bold text-on-surface line-clamp-1">${p.name}</h4>
+            <p class="text-primary-container font-black text-lg leading-none">${p.price.toLocaleString('fr-TN')} TND</p>
+            ${oldPriceHtml}
+            <button class="add-btn mt-auto pt-2 w-full py-2 bg-surface-container-highest border border-outline-variant/30 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-colors hover:border-primary-container/40 ${inCart ? 'border-primary-container/40 text-primary-container' : ''}"
+              onclick="event.stopPropagation(); addToCart(${p.id}, this)">
+              ${inCart ? '✓ Ajouté' : 'Ajouter au panier'}
+            </button>
+          </div>
+        </div>`;
+    }
+    grid.appendChild(el);
+  });
+}
+
+// ══════════════════════════════════════════════
+//  CART
+// ══════════════════════════════════════════════
+function cartTotal() {
+  return Object.entries(cart).reduce((sum, [id, qty]) => {
+    const p = PRODUCTS.find(x => x.id === +id);
+    return sum + (p ? p.price * qty : 0);
+  }, 0);
+}
+
+function cartCount() {
+  return Object.values(cart).reduce((a, b) => a + b, 0);
+}
+
+function addToCart(id, btn, qty = 1) {
+  cart[id] = (cart[id] || 0) + qty;
+  updateCartUI();
+  animateCartIcon();
+  if (btn) {
+    btn.classList.add('ripple');
+    setTimeout(() => btn.classList.remove('ripple'), 400);
+    const p = PRODUCTS.find(x => x.id === id);
+    const isWide = p && p.wide;
+    btn.textContent = isWide ? '✓ Dans le panier' : '✓ Ajouté';
+    btn.classList.add('border-primary-container/40', 'text-primary-container');
+  }
+  const p = PRODUCTS.find(x => x.id === id);
+  showToast(`${p.name} ajouté au panier ✓`);
+}
+
+function removeFromCart(id) {
+  delete cart[id];
+  updateCartUI();
+  renderCartItems();
+}
+
+function changeQty(id, delta) {
+  cart[id] = (cart[id] || 0) + delta;
+  if (cart[id] <= 0) delete cart[id];
+  updateCartUI();
+  renderCartItems();
+}
+
+function clearCart() {
+  cart = {};
+  updateCartUI();
+  renderCartItems();
+}
+
+function updateCartUI() {
+  const count = cartCount();
+  const badge = document.getElementById('cart-badge');
+  const label = document.getElementById('cart-count-label');
+
+  badge.textContent = count;
+  label.textContent = count;
+
+  if (count > 0) {
+    badge.classList.remove('hidden');
+    badge.classList.add('flex');
+  } else {
+    badge.classList.add('hidden');
+    badge.classList.remove('flex');
+  }
+
+  const total = cartTotal();
+  document.getElementById('subtotal').textContent  = total.toLocaleString('fr-TN') + ' TND';
+  document.getElementById('total-price').textContent = total.toLocaleString('fr-TN') + ' TND';
+
+  const footer = document.getElementById('cart-footer');
+  if (count > 0) footer.classList.remove('hidden');
+  else footer.classList.add('hidden');
+}
+
+function renderCartItems() {
+  const container = document.getElementById('cart-items');
+  const empty = document.getElementById('cart-empty');
+  const ids = Object.keys(cart).filter(id => cart[id] > 0);
+
+  // Remove all item rows but keep the empty placeholder
+  container.querySelectorAll('.cart-item-row').forEach(el => el.remove());
+
+  if (!ids.length) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  ids.forEach(id => {
+    const p  = PRODUCTS.find(x => x.id === +id);
+    const qty = cart[id];
+    if (!p) return;
+
+    const row = document.createElement('div');
+    row.className = 'cart-item-row flex items-center gap-3 p-3 bg-surface-container rounded-xl border border-outline-variant/10';
+    row.style.animation = 'fadeUp .3s ease both';
+
+    const thumb = p.img
+      ? `<img src="${p.img}" alt="${p.name}" class="w-14 h-14 object-contain rounded-lg bg-surface-container-highest p-1 shrink-0"/>`
+      : `<div class="w-14 h-14 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-2xl text-outline/30">${p.icon}</span></div>`;
+
+    row.innerHTML = `
+      ${thumb}
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold truncate">${p.name}</p>
+        <p class="text-primary-container text-xs font-black">${(p.price * qty).toLocaleString('fr-TN')} TND</p>
+        <div class="flex items-center gap-2 mt-1.5">
+          <button class="qty-btn text-sm" onclick="changeQty(${p.id}, -1)">−</button>
+          <span class="text-xs font-bold w-5 text-center">${qty}</span>
+          <button class="qty-btn text-sm" onclick="changeQty(${p.id}, +1)">+</button>
+        </div>
+      </div>
+      <button onclick="removeFromCart(${p.id})" class="text-outline/40 hover:text-error transition-colors shrink-0 active:scale-90">
+        <span class="material-symbols-outlined text-sm">delete</span>
+      </button>`;
+
+    container.appendChild(row);
+  });
+}
+
+function animateCartIcon() {
+  const icon = document.getElementById('cart-icon');
+  icon.classList.remove('cart-bounce');
+  void icon.offsetWidth; // reflow
+  icon.classList.add('cart-bounce');
+  icon.addEventListener('animationend', () => icon.classList.remove('cart-bounce'), {once:true});
+}
+
+// ══════════════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════════════
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  currentModalId = id;
+  modalQty = 1;
+
+  document.getElementById('modal-badge').textContent  = p.badge || p.cat;
+  document.getElementById('modal-name').textContent   = p.name;
+  document.getElementById('modal-price').textContent  = p.price.toLocaleString('fr-TN') + ' TND';
+  document.getElementById('modal-desc').textContent   = p.desc;
+  document.getElementById('modal-qty').textContent    = 1;
+
+  const oldEl = document.getElementById('modal-old-price');
+  if (p.oldPrice) {
+    oldEl.textContent = p.oldPrice.toLocaleString('fr-TN') + ' TND';
+    oldEl.classList.remove('hidden');
+  } else {
+    oldEl.classList.add('hidden');
+  }
+
+  const ratingEl = document.getElementById('modal-rating');
+  const full = Math.round(p.rating);
+  ratingEl.innerHTML = '';
+  for (let i = 0; i < 5; i++) {
+    const s = document.createElement('span');
+    s.className = 'material-symbols-outlined text-[14px]';
+    s.style.fontVariationSettings = `'FILL' ${i < full ? 1 : 0}`;
+    s.textContent = 'star';
+    ratingEl.appendChild(s);
+  }
+  const rText = document.createElement('span');
+  rText.className = 'ml-1 text-outline';
+  rText.textContent = p.rating + ' / 5';
+  ratingEl.appendChild(rText);
+
+  const imgEl   = document.getElementById('modal-img');
+  const iconWrap = document.getElementById('modal-img-icon');
+  const iconEl  = document.getElementById('modal-icon');
+  if (p.img) {
+    imgEl.src = p.img;
+    imgEl.classList.remove('hidden');
+    iconWrap.classList.add('hidden');
+    iconWrap.classList.remove('flex');
+  } else {
+    imgEl.classList.add('hidden');
+    iconWrap.classList.remove('hidden');
+    iconWrap.classList.add('flex');
+    iconEl.textContent = p.icon || 'devices';
+  }
+
+  const specsEl = document.getElementById('modal-specs');
+  specsEl.innerHTML = p.specs.map(([k,v]) => `
+    <div class="bg-surface-container rounded-lg p-2.5 text-center">
+      <p class="text-[9px] text-outline uppercase tracking-widest mb-0.5">${k}</p>
+      <p class="text-xs font-bold">${v}</p>
+    </div>`).join('');
+
+  // qty buttons
+  document.getElementById('modal-dec').onclick = () => {
+    if (modalQty > 1) { modalQty--; document.getElementById('modal-qty').textContent = modalQty; }
+  };
+  document.getElementById('modal-inc').onclick = () => {
+    modalQty++;
+    document.getElementById('modal-qty').textContent = modalQty;
+  };
+  document.getElementById('modal-add-btn').onclick = () => {
+    addToCart(currentModalId, null, modalQty);
+    closeModal();
+  };
+
+  const modal = document.getElementById('product-modal');
+  modal.classList.add('open');
+  showOverlay();
+}
+
+function closeModal() {
+  document.getElementById('product-modal').classList.remove('open');
+  hideOverlay();
+}
+
+// ══════════════════════════════════════════════
+//  CART DRAWER
+// ══════════════════════════════════════════════
+function openCart() {
+  renderCartItems();
+  document.getElementById('cart-drawer').classList.add('open');
+  showOverlay();
+}
+
+function closeCart() {
+  document.getElementById('cart-drawer').classList.remove('open');
+  hideOverlay();
+}
+
+// ══════════════════════════════════════════════
+//  OVERLAY / CLOSE ALL
+// ══════════════════════════════════════════════
+function showOverlay() {
+  const o = document.getElementById('overlay');
+  o.classList.add('visible');
+}
+function hideOverlay() {
+  const o = document.getElementById('overlay');
+  o.classList.remove('visible');
+}
+function closeAll() {
+  closeCart();
+  closeModal();
+  closeMenu();
+  hideOverlay();
+}
+
+// ══════════════════════════════════════════════
+//  SEARCH
+// ══════════════════════════════════════════════
+function toggleSearch() {
+  const bar = document.getElementById('search-bar');
+  searchOpen = !searchOpen;
+  if (searchOpen) {
+    bar.classList.remove('hidden');
+    setTimeout(() => document.getElementById('search-input').focus(), 50);
+  } else {
+    bar.classList.add('hidden');
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderProducts();
+  }
+}
+
+function filterProducts(q) {
+  searchQuery = q;
+  renderProducts();
+}
+
+// ══════════════════════════════════════════════
+//  CATEGORY FILTER
+// ══════════════════════════════════════════════
+function filterCat(el, cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  // show/hide mobilite banner
+  const banner = document.getElementById('mobilite-banner');
+  if (cat === 'mobilite') banner.classList.remove('hidden');
+  else banner.classList.add('hidden');
+  renderProducts();
+}
+
+// ══════════════════════════════════════════════
+//  NAV
+// ══════════════════════════════════════════════
+function setNav(el) {
+  event.preventDefault();
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.remove('active');
+    l.classList.add('text-[#849495]');
+  });
+  el.classList.add('active');
+  el.classList.remove('text-[#849495]');
+}
+
+function toggleMenu() {
+  const menu = document.getElementById('side-menu');
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) closeMenu();
+  else openMenu();
+}
+
+function openMenu() {
+  document.getElementById('side-menu').classList.add('open');
+  showOverlay();
+}
+
+function closeMenu() {
+  document.getElementById('side-menu').classList.remove('open');
+  hideOverlay();
+}
+
+function menuNav(el, cat) {
+  document.querySelectorAll('#side-menu .menu-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  closeMenu();
+  currentCat = cat === 'storefront' || cat === 'local_offer' || cat === 'new_releases' ? 'all' : cat;
+  document.querySelectorAll('.cat-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.cat === currentCat);
+  });
+  renderProducts();
+  document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+}
+
+function menuCat(el, cat) {
+  document.querySelectorAll('#side-menu .menu-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  closeMenu();
+  currentCat = cat;
+  document.querySelectorAll('.cat-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.cat === cat);
+  });
+  const banner = document.getElementById('mobilite-banner');
+  if (cat === 'mobilite') banner.classList.remove('hidden');
+  else banner.classList.add('hidden');
+  renderProducts();
+  document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════════════
+function showToast(msg) {
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.id = 'toast';
+  t.className = 'px-5 py-2.5 bg-surface-container-high border border-outline-variant/30 rounded-full text-xs font-bold shadow-xl backdrop-blur-xl text-on-surface flex items-center gap-2';
+  t.innerHTML = `<span class="material-symbols-outlined text-primary-container text-sm" style="font-variation-settings:'FILL' 1">check_circle</span>${msg}`;
+  container.appendChild(t);
+  setTimeout(() => t.remove(), 2900);
+}
+
+// ══════════════════════════════════════════════
+//  NEWSLETTER
+// ══════════════════════════════════════════════
+function subscribeNewsletter() {
+  const input = document.getElementById('email-input');
+  const val = input.value.trim();
+  if (!val || !val.includes('@')) {
+    input.style.borderColor = '#ffb4ab';
+    input.focus();
+    return;
+  }
+  input.style.borderColor = '';
+  input.value = '';
+  showToast('Abonnement confirmé ! Merci 🎉');
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+renderProducts();
+</script>
+
+</body>
+</html>
